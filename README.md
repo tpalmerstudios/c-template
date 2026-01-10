@@ -1,31 +1,33 @@
 # Change Name
 Description of Stuff it does!
 
-##Quick Start
+## Quick Start
+Linux Install
 ```bash
 cmake proj
 ./proj --flags
 ```
+Basic Usage
 ```
 Simple Commands and Usage
 ```
 
-##Installation
+## Installation
 Describe different targets and different platform specific installation as well as testing and debug installs.
 
-##Usage
+## Usage
 Go into detail of all the configuration options as well as syntax of any commands.
 
-##Contact
+## Contact
 <obsoleteTiger@protonmail.com> is the best way to contact me.
 In an emergency, try calling +1 911. *(/s)*
 
-##License
+## License
 *I love supporting the **[EFF](https://eff.org)**. Please donate to them if this program has been of any help*
 
 Copyright (C) 2026 [tpalmerstudios](mailto:obsoleteTiger@protonmail.com)
 
-> ###GNU General Public License Version 3
+> ### GNU General Public License Version 3
 
 > This program is free software: you can redistribute it and/or modify
 > it under the terms of the GNU General Public License as published by
