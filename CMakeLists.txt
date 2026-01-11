@@ -30,6 +30,7 @@ add_executable(01PROJCMD
 
 target_include_directories(01PROJCMD PRIVATE ${CMAKE_SOURCE_DIR}/include)
 target_compile_options(01PROJCMD PRIVATE -Wall -Wextra)
+target_compile_definitions(01PROJCMD PRIVATE $<$<CONFIG:Debug>:DEBUG>)
 add_dependencies(01PROJCMD clang-format)
 
 

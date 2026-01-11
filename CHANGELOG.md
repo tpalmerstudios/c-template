@@ -27,12 +27,19 @@ All notable changes to my C Template Generator will be documented here.
 - Automate the naming of proj_upper to replace spaces with underscore and remove special characters and move to upper case
 - Validate input
 
+## [1.2.1] - 2026-01-11
+### Added
+- Update this log
+
+## [1.3.0] - 2026-01-11
+### Added
+- Add a debug target with debug macros
+
 ---
 
 ## Planned for [1.3+]
 ### To Do
 - Add basic unit tests to the C files
-- Add a debug target
 - Integrate `version.h` into build output and into github possibly
 - Test with meson-buid
 
