@@ -44,20 +44,20 @@ The GNU Format is used by clang-format. And is automatically run by `make` when 
 ### docs
 Doxygen is used for Documentation. And is automatically run by `make` when using either `build_all` or `docs` targets.
 
-~~ ### check ~~
-~~ ctest is the CMake tester. It is not implemented yet. And is automatically run by `make` when using either `build_all` or `check` targets. ~~
+### ~~check~~
+~~ctest is the CMake tester. It is not implemented yet. And is automatically run by `make` when using either `build_all` or `check` targets.~~
 
-### proj
-proj is the regular executable. And is automatically run by `make` when using either `build_all` or `prep` targets.
+### 01PROJCMD
+01PROJCMD is the regular executable. And is automatically run by `make` when using either `build_all` or `prep` targets.
 
-~~ ### debug ~~
-~~ TODO ~~
+### ~~debug~~
+~~TODO~~
 
-~~ ### Windows ~~
-~~ TO NOT DO ~~
+### ~~Windows~~
+~~TO NOT DO~~
 
-~~ ### Other Platforms ~~
-~~ TODO ~~
+### ~~Other Platforms~~
+~~TODO~~
 
 ## Usage
 | Flag | Values | Description |
