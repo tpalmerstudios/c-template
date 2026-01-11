@@ -1,24 +1,61 @@
-# Template Setup
-This is an empty C Project that has the basics set up. The goal of this is to allow me to run a script with a name, a description and a few other variables and the project to be customized and ready to code.
+# 01PROJTEMP
+01PROJDESC
 
-## Variables for the TEMPLATE to search
-`grep` these for now and replace with correct name.
+--------------
 
----------------
+## Quick Start
+Fork and rename
+Find and replace all variables Update the readme and the changelog
+~~Remove the install srcipt~~
 
-- **01PROJTEMP** Human readable project name
+### Linux Install
+```bash
+cmake -B build
+cd build/
+make 01PROJCMD
+./01PROJCMD --flags
+```
 
-- **01PROJUPPER** is the name of the project used in the CMakeLists. It should be uppercase and not have any spaces
+### Basic Usage
+| Flag | Values | Description |
+|------|--------|-------------|
+| `--flag-name` |  | Description of useage |
+| `-f=` | `0-99` | Description |
 
-- **01PROJCMD** is the name of the executable file
+## Installation
 
-- **01PROJDESC** Description of Stuff it does!
+- ### clang-format
+The GNU Format is used by clang-format. And is automatically run by `make` when using either `build_all` or `clang-format` targets
 
----------------
+- ### docs
+Doxygen is used for Documentation. And is automatically run by `make` when using either `build_all` or `docs` targets.
 
-## Other things to change before starting
+- ### ~~check~~
+~~ctest is the CMake tester. It is not implemented yet. And is automatically run by `make` when using either `build_all` or `check` targets.~~
 
-**Usage** change the new readme based on actual usage and installation
+- ### 01PROJCMD
+01PROJCMD is the regular executable. And is automatically run by `make` when using either `build_all` or `prep` targets.
+
+- ### ~~debug~~
+~~TODO~~
+
+- ### ~~Windows~~
+~~TO NOT DO~~
+
+- ### ~~Other Platforms~~
+~~TODO~~
+
+---------
+
+## Usage
+| Flag | Values | Description |
+|------|--------|-------------|
+| `--flag-name` |  | Description of useage |
+| `-f=` | `0-99` | Description |
+
+Go into detail of all the configuration options as well as syntax of any commands.
+
+---------
 
 ## Contact
 <obsoleteTiger@protonmail.com> is the best way to contact me.

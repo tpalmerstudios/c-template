@@ -1,6 +1,6 @@
 # Contributing Guide
 
-Thanks for considering contributing to this 01PROJTEMP !
+Thanks for considering contributing to 01PROJTEMP
 
 ## How to Contribute
 

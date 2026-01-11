@@ -19,31 +19,41 @@ cp_check() {
 	fi
 }
 cp_check ./.clang-format
-cp_check ./.git/description
-cp_check ./.github/ISSUE_TEMPLATE
+cp_check ./.github/
 cp_check ./.gitignore
 cp_check ./include
 cp_check ./src
 cp_check ./tests
-cp_check ./CHANGELOG.md
 cp_check ./CMakeLists.txt
 cp_check ./CONTRIBUTING.md
 cp_check ./Doxyfile
 cp_check ./LICENSE
-cp_check ./README.md
+
+cp ./CHANGELOG-NEW.md ../$proj_command/CHANGELOG.md
+cp ./README-NEW.md ../$proj_command/README.md
 
 cd ../$proj_command
 
 # find and replace recursively through new current directory
-# 01PROJCMD with proj_command
-# 01PROJTEMP with Human readable Project Name
-# 01PROJDESC with Human readable Project Description
-# 01PROJUPPER with Upper Case version of the proj_command or new prompt that asks them to type that. Whatever is easier
+read -p "Project Name in a readable format: " proj_readable
+read -p "Project description. 1-2 Sentences don't use \\ or \/ or \|: " proj_description
+read -p "Project Command in Upper Case (used for CMake file globbing): " proj_upper
 
+echo "$proj_description" > .git/description
 
+find . -type f -exec sed -i "s|01PROJCMD|$proj_command|g" {} +
+find . -type f -exec sed -i "s|01PROJTEMP|$proj_readable|g" {} +
+find . -type f -exec sed -i "s|01PROJDESC|$proj_description|g" {} +
+find . -type f -exec sed -i "s|01PROJUPPER|$proj_upper|g" {} +
 
 git add .
 git commit -m "initial commit; copied template from tpalmerstudios/c-template"
 
 echo "Project $proj_command set up successfully!"
+echo "--------------------------------------------"
+echo "Todo:"
+echo "Create the repo on Github."
+echo "Set origin and push."
+echo "Update Version numbers"
+echo "Start coding"
 
