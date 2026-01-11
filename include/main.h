@@ -1,0 +1,4 @@
+struct example
+{
+	char *hello;
+};

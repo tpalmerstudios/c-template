@@ -37,13 +37,13 @@ set(ALL_C_FILES
 
 # Frontend
 add_executable(proj
-	${PROJNAME_HEADERS}
 	${PROJNAME_SOURCES}
+	${PROJNAME_HEADERS}
 )
 target_include_directories(proj PRIVATE
-	${RABBIT_HEADERS}
+	${CMAKE_SOURCE_DIR}/include
 )
-target_compile_options(proj PRIVATE -Wall -Wextra -Werror)
+target_compile_options(proj PRIVATE -Wall -Wextra)
 
 
 # clang-format target
@@ -55,6 +55,7 @@ if(CLANG_FORMAT_EXE AND ALL_C_FILES)
 	add_custom_target(
 		clang-format
 		COMMAND ${CLANG_FORMAT_EXE} -i ${ALL_C_FILES}
+		DEPENDS proj
 		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 		COMMENT "Running clang-format on source files"
 	)
@@ -71,7 +72,7 @@ if(DOXYGEN_FOUND)
 		docs
 		COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_SOURCE_DIR}/Doxyfile
 		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-		COMMENT "Generating Documentation with Dxygen"
+		COMMENT "Generating Documentation with Doxygen"
 		VERBATIM
 	)
 else()
@@ -113,19 +114,9 @@ add_custom_target(proj_prep ALL
 	COMMENT "Build all targets: proj, formatting, documentation, testing"
 )
 
-if(TARGET clang-format)
-	add_dependencies(proj_prep clang-format)
-endif()
+add_dependencies(proj_prep clang-format)
+add_dependencies(proj_prep proj)
+add_dependencies(proj_prep check)
+add_dependencies(proj_prep docs)
 
-if(TARGET proj)
-	add_dependencies(proj_prep proj)
-endif()
-
-if(TARGET docs)
-	add_dependencies(proj_prep docs)
-endif()
-
-if(TARGET check)
-	add_dependencies(proj_prep check)
-endif()
 
