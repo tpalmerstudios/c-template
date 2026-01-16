@@ -1,7 +1,7 @@
 #!/bin/bash
 
 version_output() {
-	echo "C-Template is a small tool that generates a ready-to-use C projects"
+	echo "C-Template is a small tool that generates a ready-to-use C project"
 
 	echo "Version 1.4.0"
 	echo "Please donate to the EFF if this program has been of any help"
@@ -14,18 +14,18 @@ version_output() {
 	echo "Written by tpalmerstudios"
 }
 
-help_ouput() {
+help_output() {
 	echo "Usage ./template-setup.sh [OPTION]"
 	echo "Install a stub C Project to a sister directory"
 	echo ""
 	echo "-v, --version		output version information and exit"
 	echo "-h, --help		display this help and exit"
-	echo "    --no-git		skips all setup related to a git repostory"
+	echo "    --no-git		skips all setup related to a git repository"
 	echo "    --force		uses a directory even if it already exists. does not empty it first"
 	echo "    --remove		removes a directory COMPLETELY before creating the template files in that directory"
 	echo ""
 	echo "Documentation <https://github.com/tpalmerstudios/c-template>"
-	echo "Questions for the author: <obsoleteTiger@protonmail.com"
+	echo "Questions for the author: <obsoleteTiger@protonmail.com>"
 }
 
 cp_check() {
@@ -41,6 +41,7 @@ force=false
 version=false
 remove=false
 do_git=true
+show_help=false
 
 for param in "$@"; do
 	case $param in
@@ -72,7 +73,7 @@ if [ "$version" = true ]; then
 fi
 
 if [ "$show_help" = true ]; then
-	help_ouput
+	help_output
 	exit 0
 fi
 
@@ -106,7 +107,7 @@ if [ "$remove" = true ] && [ -d "../$proj_command" ]; then
 		echo "Nothing Done... Exiting!"
 		exit 1
 	else
-		rm -rf ../$proj_command
+		rm -rf "../$proj_command"
 		echo "Removed ../$proj_command"
 	fi
 fi
@@ -114,7 +115,7 @@ fi
 if [ -d "../$proj_command" ]; then
 	echo "'../$proj_command' already exists."
 	if [ "$force" = true ]; then
-		echo "Overwriting ../$proj_command"
+		echo "Using existing directory ../$proj_command due to --force"
 	else
 		echo "Use \"--force\" to overwrite."
 		echo "Exiting"
@@ -122,7 +123,7 @@ if [ -d "../$proj_command" ]; then
 	fi
 fi
 
-mkdir "../$proj_command"
+mkdir "../$proj_command" || exit 1
 if [ "$do_git" = true ]; then
 	git init "../$proj_command"
 	mkdir "../$proj_command/.github" || exit 1
@@ -143,7 +144,7 @@ cp_check ./meta/CHANGELOG.md
 cp_check ./meta/CONTRIBUTING.md
 cp_check ./meta/README.md
 
-cd ../$proj_command
+cd "../$proj_command"
 
 find . -type f -exec sed -i "s|01PROJCMD|$proj_command|g" {} +
 find . -type f -exec sed -i "s|01PROJTEMP|$proj_readable|g" {} +
