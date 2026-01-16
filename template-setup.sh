@@ -28,15 +28,6 @@ help_output() {
 	echo "Questions for the author: <obsoleteTiger@protonmail.com>"
 }
 
-cp_check() {
-	if cp -r "$1" "../$proj_command"; then
-		echo "Copied $1 to ../$proj_command"
-	else
-		echo "Failed to copy $1"
-		exit 1
-	fi
-}
-
 force=false
 version=false
 remove=false
@@ -132,17 +123,13 @@ if [ "$do_git" = true ]; then
 	echo "$proj_description" >../$proj_command/.git/description
 fi
 
-cp_check ./.clang-format
-cp_check ./include
-cp_check ./src
-cp_check ./tests
-cp_check ./CMakeLists.txt
-cp_check ./Doxyfile
-cp_check ./LICENSE
-cp_check ./test.sh
-cp_check ./meta/CHANGELOG.md
-cp_check ./meta/CONTRIBUTING.md
-cp_check ./meta/README.md
+# child dir copy
+if cp -r ./child/* "../$proj_command"; then
+	echo "Copied 'child' to ../$proj_command"
+	else
+		echo "Failed to copy 'child'"
+		exit 1
+	fi
 
 cd "../$proj_command"
 
