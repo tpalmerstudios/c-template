@@ -10,6 +10,7 @@ That will generate a directory as a sibling to wherever the `c-template` package
 A git repository will init and files with the new names and valued are copied.
 
 | Flags | Description |
+|---|---|
 | `-v`,`--version`| output version information and exit |
 | `-h`,`--help`,`help` | display this help and exit |
 | `--no-git` | skips all setup related to git |
