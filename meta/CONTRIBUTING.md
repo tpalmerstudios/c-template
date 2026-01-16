@@ -1,6 +1,6 @@
 # Contributing Guide
 
-Thanks for considering contributing to C-Template
+Thanks for considering contributing to 01PROJTEMP
 
 ## How to Contribute
 

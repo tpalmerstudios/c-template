@@ -9,14 +9,12 @@ Run the `./template-setup.sh` script and input a name for the project as well as
 That will generate a directory as a sibling to wherever the `c-template` package is.
 A git repository will init and files with the new names and valued are copied.
 
-|-------|-------------|
 | Flags | Description |
-|-------|-------------|
-| `-v` `--version`| output version information and exit |
-| `-h` `--help` `help` | display this help and exit |
+| `-v`,`--version`| output version information and exit |
+| `-h`,`--help`,`help` | display this help and exit |
 | `--no-git` | skips all setup related to git |
 | `--force` | uses a direcotry even if it already exists. does NOT empty that folder |
-| `--remove` | removes a directory completely before creating the template files in that directory |
+| `--remove` | removes a directory COMPLETELY before creating the template files in that directory |
 
 ## Test Install
 `cd ../proj-name` and run `./test.sh`

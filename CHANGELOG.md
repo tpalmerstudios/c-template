@@ -49,6 +49,11 @@ All notable changes to my C Template Generator will be documented here.
 - Added `--no-git` flags - Skips all git commands
 - Added `--version` flags - Outputs version and license info
 
+## [1.4.2] - 2026-01-15
+### Added
+- Fixed README format
+- Organized meta files more effectively
+
 ---
 
 ## Planned for [1.3+]

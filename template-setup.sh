@@ -136,13 +136,12 @@ cp_check ./include
 cp_check ./src
 cp_check ./tests
 cp_check ./CMakeLists.txt
-cp_check ./CONTRIBUTING.md
 cp_check ./Doxyfile
 cp_check ./LICENSE
 cp_check ./test.sh
-
-cp ./meta/CHANGELOG-NEW.md ../$proj_command/CHANGELOG.md
-cp ./meta/README-NEW.md ../$proj_command/README.md
+cp_check ./meta/CHANGELOG.md
+cp_check ./meta/CONTRIBUTING.md
+cp_check ./meta/README.md
 
 cd ../$proj_command
 
