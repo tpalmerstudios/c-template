@@ -1,0 +1,29 @@
+4562c5c0f3af49090ea6f0f00873ec9b3981b488 reorganize folder structure. separate the c project from the c-template
+30f20cc58c1a3ca536f0d5fc7195adf8c40463f2 small spelling fixes
+90cfe2b1cfb83d481e9c8d6b4a2639db81b40287 Fix typo in README flags section
+03cef6b3a3292046bdcfd6eb5a5a91d0fd43f792 close #24 - organize meta files better and fix readme
+762bf2a6e6d9f0864b567cf1db29bcfb80256452 close #10 - git optional. close #15 - updated changelog. close #19 - added in simple flags for script. close #21 - added help info. close #22 - added a force and remove. Updated changelog and readme
+c4f31a9855ab014869adf4a29e80f007fa143550 close #13. fixed README formatting; added meta directory for proj info
+1797ccf4301e7fb87329511b13a4e0c964b00583 fixed readme. close #8
+178a51344936c509339e2211f017e2de1f94df32 Merge pull request #7 from tpalmerstudios/debug
+f240cce978d1b446814b6f123597762b04435c74 close #3 added debug target and add working debug macros to code
+d8ab5f9c2d5cb9448acd30f2e5cde22074a9e272 update changelog
+7f8dd39786321a46f3e19182e3e1835a5a7a0440 close #2 we added input validation and escape strings
+0dffbb976e0313bbc7835d1f2e9de3b77f821673 close #1. Program runs ninja and make and tests output
+e1a736b9492f0eb622c896afea2fac753222f2d7 solves #4.Licensing issue
+7805381f27eaf7ccc6266c61ee1b00e6c835d4e9 update changelog and set goals for project
+4943a0abaf5966cee7288a1747a7575e6fcf0ab8 first version out. find and replace. Update variables in various files. Separate new+old readmes. Create script that replaces strings
+85de766a014044664488a19327df961c1f6b5c6e created a script, still misssing the find and replace
+7aa5c108501551523216ec87cd8d13f540bb516e small change I believe
+e18965f24f2df9e65a4878031fc3e4fdc890c961 Update issue templates
+44c627b5fc893b384c3083696ca5656cb8fbaf8c small readme update and add version
+f615b046291654cc1b598539c602ae478659243e tested functionality: works. Fix formatting of readme
+0c019331dad6340d48d99394640500d29c69d22f added in variables to search. added a changelog rather than a todo
+7c0942bf77ba79f8074bf8492607a65ef91d321e add ordered dependencies and reformat CMakeLists
+8f946012902869649e17ed1adc9a61906b018a1c got CMake working
+c4917976586856368f1ba5365e7a4940acb18082 Fix formatting in README sections
+d1ae3a9d26c8967f980e150a89fa8daa934361b6 customized the readme/separated the Terms & Conditions from Implementation of License
+bf725e7e0b52e9191ad800412da887f4d6b40989 Added clang-format and create basic file structure
+c65a371d63b1a1d663b32f7470b19d21299a6729 Added a default Doxyfile
+a9668c3b89b086df6c5562cf544956dfd8862abe add a CMakeList; still need to test
+da949855d312a40908aecd5d1305d54c874de8e9 Initial commit

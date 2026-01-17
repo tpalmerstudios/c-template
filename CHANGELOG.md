@@ -54,6 +54,10 @@ All notable changes to my C Template Generator will be documented here.
 - Fixed README format
 - Organized meta files more effectively
 
+## [1.5.0] - 2026-01-16
+### Added
+- Added Flags to the C Program (needs work)
+
 ---
 
 ## Planned for [1.3+]
