@@ -19,10 +19,19 @@ make 01PROJCMD
 ### Basic Usage
 | Flag | Values | Description |
 |------|--------|-------------|
-| `--flag-name` |  | Description of useage |
-| `-f=` | `0-99` | Description |
+| `--testing` |  | Run 01PROJTEMP in testing mode |
+| `-v` |  | output version information and exit |
+| `-h` |  | output help information and exit |
 
 ## Installation
+
+### Standard Installation
+```bash
+cmake -B build
+cmake --build build
+cd build
+./01PROJCMD
+```
 
 - ### clang-format
 The GNU Format is used by clang-format. And is automatically run by `make` when using either `build_all` or `clang-format` targets
@@ -36,8 +45,8 @@ Doxygen is used for Documentation. And is automatically run by `make` when using
 - ### 01PROJCMD
 01PROJCMD is the regular executable. And is automatically run by `make` when using either `build_all` or `prep` targets.
 
-- ### ~~debug~~
-~~TODO~~
+- ### Debug
+`cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug`
 
 - ### ~~Windows~~
 ~~TO NOT DO~~
@@ -50,8 +59,9 @@ Doxygen is used for Documentation. And is automatically run by `make` when using
 ## Usage
 | Flag | Values | Description |
 |------|--------|-------------|
-| `--flag-name` |  | Description of useage |
-| `-f=` | `0-99` | Description |
+| `--testing` |  | Run 01PROJTEMP in testing mode |
+| `-v` |  | output version information and exit |
+| `-h` |  | output help information and exit |
 
 Go into detail of all the configuration options as well as syntax of any commands.
 

@@ -18,7 +18,7 @@ A git repository will init and files with the new names and valued are copied.
 | `--remove` | removes a directory COMPLETELY before creating the template files in that directory |
 
 ## Test Install
-`cd ../proj-name` and run `./test.sh`
+`cd ../proj-name` and run `./test-install.sh`
 This runs cmake with all targets including documentation.
 
 ## Dependencies

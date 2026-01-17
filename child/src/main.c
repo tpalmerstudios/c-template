@@ -1,5 +1,5 @@
-#include "main.h"
 #include "debug.h"
+#include "flags.h"
 #include <assert.h>
 #include <stdio.h>
 
@@ -13,21 +13,25 @@ int
 main (int argc, char *argv[])
 {
 #ifdef DEBUG
-	DBG ("Start!");
+	DBG ("Main Start");
 #endif
 
-	int pizza = 1;
-	struct example Example;
-	assert (pizza == 1);
-	Example.hello = "Hello World!\n";
-	while (pizza)
+	Flags flags;
+	initFlags (argc, argv, &flags);
+	if (flags.testing) printf ("Testing\n");
+
+	int loop = 1;
+	assert (loop == 1);
+	while (loop)
 		{
-			printf ("%s", Example.hello);
 #ifdef DEBUG
-			DBG ("Example.hello=%d", Example.hello);
+			DBG ("loop=%d", loop);
 #endif
-
-			pizza = 0;
+			printf ("Hello, World!\n");
+			loop = 0;
 		}
+#ifdef DEBUG
+	DBG ("Main End");
+#endif
 	return 0;
 }
