@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+static Flags globalFlags = { 0 };
+
 void
 showHelp (void)
 {
@@ -11,7 +13,7 @@ showHelp (void)
 	printf ("01PROJDESC\n\n");
 	printf ("-v, --version\t\toutput version information and exit\n");
 	printf ("-h, --help\t\tdisplay this help and exit\n");
-	printf ("    --testing\t\trun 01PROJTEMP in testing mode\n\n");
+	printf ("    --flagName\t\trun 01PROJTEMP in \"flag\" mode\n\n");
 	printf ("Documentation <https://github.com/tpalmerstudios/01PROJCMD>\n");
 	printf ("Questions for the author: <obsoleteTiger@protonmail.com>\n");
 }
@@ -31,10 +33,10 @@ showVersion (void)
 }
 
 void
-initFlags (int argc, char *argv[], Flags *flags)
+initFlags (int argc, char *argv[])
 {
 	int i;
-	flags->testing = 0;
+	globalFlags.flagName = 0;
 
 	for (i = 0; i < argc; ++i)
 		{
@@ -48,9 +50,20 @@ initFlags (int argc, char *argv[], Flags *flags)
 					showVersion ();
 					exit (0);
 				}
-			if (strcmp (argv[i], "--testing") == 0)
+			if (strcmp (argv[i], "--flagName") == 0)
 				{
-					flags->testing = 1;
+					globalFlags.flagName = 1;
 				}
 		}
+}
+
+const Flags *
+getFlags (void)
+{
+	return &globalFlags;
+}
+
+int isFlagName (void)
+{
+	return globalFlags.flagName;
 }

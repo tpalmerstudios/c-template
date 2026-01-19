@@ -1,7 +1,9 @@
-#include "debug.h"
 #include "flags.h"
 #include <assert.h>
 #include <stdio.h>
+#ifdef DEBUG
+#include "debug.h"
+#endif
 
 /***************************
  * @brief A main function that loops once
@@ -16,9 +18,8 @@ main (int argc, char *argv[])
 	DBG ("Main Start");
 #endif
 
-	Flags flags;
-	initFlags (argc, argv, &flags);
-	if (flags.testing) printf ("Testing\n");
+	initFlags (argc, argv);
+	if (isFlagName()) printf ("Example Flag Mode\n");
 
 	int loop = 1;
 	assert (loop == 1);
