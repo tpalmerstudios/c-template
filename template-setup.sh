@@ -18,11 +18,13 @@ help_output() {
 	echo "Usage ./template-setup.sh [OPTION]"
 	echo "Install a stub C Project to a sister directory"
 	echo ""
-	echo "-v, --version		output version information and exit"
-	echo "-h, --help		display this help and exit"
-	echo "    --no-git		skips all setup related to a git repository"
-	echo "    --force		uses a directory even if it already exists. does not empty it first"
-	echo "    --remove		removes a directory COMPLETELY before creating the template files in that directory"
+	echo "-v, --version			output version information and exit"
+	echo "-h, --help			display this help and exit"
+	echo "    --no-git			skips all setup related to a git repository"
+	echo "    --force			uses a directory even if it already exists. does not empty it first"
+	echo "    --remove			removes a directory COMPLETELY before creating the template files in that directory"
+	echo "    --path [PATH]		sets a directory where the project will be installed under"
+	echo "						NOTE: project will be installed as a subdirectory; the path must exist"
 	echo ""
 	echo "Documentation <https://github.com/tpalmerstudios/c-template>"
 	echo "Questions for the author: <obsoleteTiger@protonmail.com>"
@@ -33,9 +35,15 @@ version=false
 remove=false
 do_git=true
 show_help=false
+install_path=".."
+optind=0
+args=("$@")
+argc=$#
 
-for param in "$@"; do
-	case $param in
+while [ $optind -lt $argc ]; do
+	param="${args[$optind]}"
+
+	case "$param" in
 	--version | -v)
 		version=true
 		;;
@@ -51,11 +59,21 @@ for param in "$@"; do
 	--help | -h | help)
 		show_help=true
 		;;
+	--path)
+		next=$((optind + 1))
+		if [ $next -ge $argc ]; then
+			echo "\"--path some/path\" is the proper syntax"
+			exit 1
+		fi
+		install_path="${args[$next]}"
+		optind=$((optind + 1))
+		;;
 	*)
 		echo "Unknown Option: $param"
 		exit 1
 		;;
 	esac
+	optind=$((optind + 1))
 done
 
 if [ "$version" = true ]; then
@@ -68,45 +86,50 @@ if [ "$show_help" = true ]; then
 	exit 0
 fi
 
+if [ ! -d "$install_path" ]; then
+	echo "Installation Path invalid. Must be an existing directory"
+	echo "Project Will Be installed as a subdirectory with the name you give it"
+	exit 1
+fi
+
 read -p "Project Name: " proj_readable
 
 proj_command=${proj_readable//[^[:alnum:] ]/}
 proj_command=${proj_command//[[:space:]]/_}
 proj_upper=${proj_command^^}
 
-read -r -p "Project description. 1-2 Sentences don't use \\ or \/ or \|: " proj_description
-
+read -r -p "Project description in 1-2 Sentences: " proj_description
 proj_description=${proj_description//\\/\\\\}
 proj_description=${proj_description//\"/\\\"}
 proj_description=${proj_description//\$/\\\$}
 proj_description=${proj_description//;/\\;}
 
-echo "${proj_readable}"
-echo "${proj_upper}"
-echo "${proj_command}"
-echo "${proj_description}"
+echo "Regular Name:		${proj_readable}"
+echo "Upper Case:		${proj_upper}"
+echo "Directory Name:		${proj_command}"
+echo "Description:		${proj_description}"
 read -p "Confirm Variables make sense (y/N): " confirm
 if [[ "${confirm}" != "y" && "${confirm}" != "Y" ]]; then
 	echo "Nothing Done... Exiting!"
 	exit 1
 fi
 
-if [ "$remove" = true ] && [ -d "../$proj_command" ]; then
-	echo "Removing the directory: '../$proj_command'"
+if [ "$remove" = true ] && [ -d "$install_path/$proj_command" ]; then
+	echo "Removing the directory: '$install_path/$proj_command'"
 	read -p "Type the name of the directory to confirm. ($proj_command): " confirm_remove
 	if [[ "${proj_command}" != "${confirm_remove}" ]]; then
 		echo "Nothing Done... Exiting!"
 		exit 1
 	else
-		rm -rf "../$proj_command"
-		echo "Removed ../$proj_command"
+		rm -rf "$install_path/$proj_command"
+		echo "Removed $install_path/$proj_command"
 	fi
 fi
 
-if [ -d "../$proj_command" ]; then
-	echo "'../$proj_command' already exists."
+if [ -d "$install_path/$proj_command" ]; then
+	echo "'$install_path/$proj_command' already exists."
 	if [ "$force" = true ]; then
-		echo "Using existing directory ../$proj_command due to --force"
+		echo "Using existing directory $install_path/$proj_command due to --force"
 	else
 		echo "Use \"--force\" to overwrite."
 		echo "Exiting"
@@ -114,24 +137,28 @@ if [ -d "../$proj_command" ]; then
 	fi
 fi
 
-mkdir "../$proj_command" || exit 1
+mkdir "$install_path/$proj_command"
+if [ ! -d "$install_path/$proj_command" ]; then
+	echo "Directory not created. Exiting"
+	exit 1
+fi
+
 if [ "$do_git" = true ]; then
-	git init "../$proj_command"
-	mkdir "../$proj_command/.github" || exit 1
-	cp_check ./.github/
-	cp_check ./.gitignore
-	echo "$proj_description" >../$proj_command/.git/description
+	git init "$install_path/$proj_command"
+	cp -r ./.github/ "$install_path/$proj_command"
+	cp ./.gitignore "$install_path/$proj_command"
+	echo "$proj_description" >$install_path/$proj_command/.git/description
 fi
 
 # child dir copy
-if cp -r ./child/* "../$proj_command"; then
-	echo "Copied 'child' to ../$proj_command"
+if cp -r ./child/* "$install_path/$proj_command"; then
+	echo "Copied 'child' to $install_path/$proj_command"
 else
 	echo "Failed to copy 'child'"
 	exit 1
 fi
 
-cd "../$proj_command"
+cd "$install_path/$proj_command"
 
 find . -type f -exec sed -i "s|01PROJCMD|$proj_command|g" {} +
 find . -type f -exec sed -i "s|01PROJTEMP|$proj_readable|g" {} +
