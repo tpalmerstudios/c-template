@@ -5,6 +5,3 @@ ColumnLimit: 100
 TabWidth: 4
 UseTab: Always
 BreakBeforeBraces: GNU
-AllowShortIfStatementsOnASingleLine: true
-SpacesBeforeTrailingComments: 1
-SpaceAfterCStyleCast: true

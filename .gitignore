@@ -35,8 +35,9 @@
 *.i*86
 *.x86_64
 *.hex
-build/
-docs/
+child/build/
+child/docs/
+child/.cache/
 
 # Debug files
 *.dSYM/

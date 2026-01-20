@@ -1,56 +1,55 @@
 #include "flags.h"
-#include "version.h"
-#include <stdio.h>
+#include "messages.h"
+#include <getopt.h>
 #include <stdlib.h>
 #include <string.h>
 
+static Flags globalFlags = { 0 };
+
 void
-showHelp (void)
+initFlags (int argc, char *argv[])
 {
-	printf ("Usage ./01PROJCMD [OPTION]\n");
-	printf ("01PROJDESC\n\n");
-	printf ("-v, --version\t\toutput version information and exit\n");
-	printf ("-h, --help\t\tdisplay this help and exit\n");
-	printf ("    --testing\t\trun 01PROJTEMP in testing mode\n\n");
-	printf ("Documentation <https://github.com/tpalmerstudios/01PROJCMD>\n");
-	printf ("Questions for the author: <obsoleteTiger@protonmail.com>\n");
+	globalFlags.flagName = 0;
+	int c;
+	enum {
+		OPT_FLAG_NAME = 256
+	};
+	static const struct option long_options[]
+		= {
+			{ "flagName",	no_argument, 0, OPT_FLAG_NAME },
+			{ "help",		no_argument, 0, 'h' },
+			{ "version",	no_argument, 0, 'v' },
+			{ 0,			0,			 0, 0 }
+		};
+	while ((c = getopt_long (argc, argv, "hv", long_options, NULL)) != -1)
+				{
+					switch (c)
+					{
+						case 'v':
+							printVersion ();
+							exit (0);
+							break;
+						case OPT_FLAG_NAME:
+							globalFlags.flagName = 1;
+							break;
+						case '?':
+						case 'h':
+						default:
+							printHelp ();
+							exit (0);
+							break;
+					}
+				}
 }
 
-void
-showVersion (void)
+const Flags *
+getFlags (void)
 {
-	printf ("01PROJTEMP\n");
-	printf ("01PROJDESC\n");
-	printf ("Version: %s\n", PROJECT_VERSION);
-	printf ("Please donate to the EFF if this program has been of any help\n\n");
-	printf ("Copyright © 2026 tpalmerstudios\n");
-	printf ("License GPLv3+: GNU GPL version 3 or later https://gnu.org/licenses/gpl.html.\n");
-	printf ("This is free software: you are free to change and redistribute it.\n");
-	printf ("There is NO WARRANTY, to the extent permitted by law.\n\n");
-	printf ("Written by tpalmerstudios\n");
+	return &globalFlags;
 }
 
-void
-initFlags (int argc, char *argv[], Flags *flags)
+int
+isFlagName (void)
 {
-	int i;
-	flags->testing = 0;
-
-	for (i = 0; i < argc; ++i)
-		{
-			if ((strcmp (argv[i], "--help") == 0) || (strcmp (argv[i], "-h") == 0))
-				{
-					showHelp ();
-					exit (0);
-				}
-			if ((strcmp (argv[i], "--version") == 0) || (strcmp (argv[i], "-v") == 0))
-				{
-					showVersion ();
-					exit (0);
-				}
-			if (strcmp (argv[i], "--testing") == 0)
-				{
-					flags->testing = 1;
-				}
-		}
+	return globalFlags.flagName;
 }

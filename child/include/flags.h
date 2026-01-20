@@ -6,14 +6,14 @@
  * *********************************************/
 typedef struct Flags
 {
-	int testing;
+	int flagName;
 } Flags;
 
 /***********************************************
  * @brief Parses command line arguments into the structure passed to it
  **********************************************/
-void initFlags (int argc, char *argv[], Flags *flags);
-void showHelp (void);
-void showVersion (void);
+void initFlags (int argc, char *argv[]);
+const Flags *getFlags (void);
+int isFlagName (void);
 
 #endif // FLAGS_H
