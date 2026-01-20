@@ -20,4 +20,4 @@ jobs:
           fetch-depth: 0
 
       - name: Super-Linter
-        uses: github/super-linter@v8.3.2
+        uses: super-linter/super-linter@v8.3.2
