@@ -38,7 +38,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_CPP: false
-          VALIDATE_MARKDOWN: false
           FIX_YAML_PRETTIER: true
           FIX_MARKDOWN: true
           FIX_SHELL_SHFMT: true
