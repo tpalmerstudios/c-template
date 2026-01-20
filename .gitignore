@@ -38,6 +38,7 @@
 child/build/
 child/docs/
 child/.cache/
+.cache/
 
 # Debug files
 *.dSYM/

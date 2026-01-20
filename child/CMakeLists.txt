@@ -11,17 +11,25 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 file(GLOB_RECURSE 01PROJUPPER_SOURCES "${CMAKE_SOURCE_DIR}/src/*.c")
 file(GLOB_RECURSE 01PROJUPPER_HEADERS "${CMAKE_SOURCE_DIR}/include/*.h")
+file(GLOB_RECURSE 01PROJUPPER_TESTS "${CMAKE_SOURCE_DIR}/tests/*.c")
 set(ALL_C_FILES
 	${01PROJUPPER_SOURCES}
 	${01PROJUPPER_HEADERS}
 )
-add_executable(01PROJCMD
-	${01PROJUPPER_SOURCES}
-	${01PROJUPPER_HEADERS}
-)
 
-target_include_directories(01PROJCMD PRIVATE ${CMAKE_SOURCE_DIR}/include)
-target_compile_options(01PROJCMD PRIVATE -Wall -Wextra)
+# core library
+file(GLOB_RECURSE 01PROJUPPER_SRC_LIB "${CMAKE_SOURCE_DIR}/src/*.c")
+list(REMOVE_ITEM 01PROJUPPER_SRC_LIB
+	"${CMAKE_SOURCE_DIR}/src/main.c"
+)
+add_library(core ${01PROJUPPER_SRC_LIB})
+target_include_directories(core PUBLIC ${CMAKE_SOURCE_DIR}/include)
+
+# executable
+add_executable(01PROJCMD
+	${CMAKE_SOURCE_DIR}/src/main.c
+)
+target_link_libraries(01PROJCMD PRIVATE core)
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -g -O0")
 target_compile_definitions(01PROJCMD PRIVATE $<$<CONFIG:Debug>:DEBUG>)
 
@@ -52,6 +60,20 @@ else()
 	message(STATUS "Doxygen not found, 'docs' target will be skipped")
 endif()
 add_dependencies(docs 01PROJCMD)
+
+# Set these options off for a Release Build
+option(BUILD_TESTS "Build Tests" ON)
+if (BUILD_TESTS)
+	enable_testing()
+	add_subdirectory(tests)
+endif()
+
+option(ENABLE_WARNINGS "Enable Compiler Warnings" ON)
+if (ENABLE_WARNINGS)
+	target_compile_options(01PROJCMD PRIVATE -Wall -Wextra)
+	target_compile_options(core PRIVATE -Wall -Wextra)
+endif()
+
 
 # Runs all targets
 add_custom_target(dev_build
