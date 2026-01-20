@@ -5,6 +5,9 @@
 # For more information, see:
 # https://github.com/github/super-linter
 name: Formatter
+permissions:
+  contents: read
+  checks: write
 
 on:
   push:
