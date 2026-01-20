@@ -4,6 +4,7 @@ C-Template is a project made to save time in starting a new project. It uses a s
 
 [![Super-Linter](https://github.com/tpalmerstudios/c-template/actions/workflows/super-linter.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+![Build & Test](https://github.com/tpalmerstudios/c-template/actions/workflows/cmake-single-platform.yml/badge.svg)
 
 ## Usage
 
