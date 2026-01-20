@@ -46,6 +46,27 @@ if (ENABLE_WARNINGS)
 	target_compile_options(core PRIVATE -Wall -Wextra)
 endif()
 
+option(BUILD_DOCS "Build Documentation" ON)
+
+find_package(Doxygen)
+if (BUILD_DOCS AND DOXYGEN_FOUND)
+	add_custom_target(
+		docs
+		COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_SOURCE_DIR}/Doxyfile
+		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+		COMMENT "Generating Documentation with Doxygen"
+	)
+	add_dependencies(docs 01PROJCMD)
+else()
+	find_program(ECHO_EXE NAMES echo)
+	add_custom_target(
+		docs
+		COMMAND ${ECHO_EXE} "No documentation generated"
+		COMMENT "No error thrown to help GitHub Actions"
+	)
+	message(STATUS "Doxygen not found, 'docs' target will be skipped")
+endif()
+
 # clang-format target
 find_program(CLANG_FORMAT_EXE NAMES clang-format)
 
@@ -60,20 +81,6 @@ else()
 	message(STATUS "clang-format not found, 'clang-format' target will be skipped")
 endif()
 
-# doxygen target
-find_package(Doxygen)
-if(DOXYGEN_FOUND)
-	add_custom_target(
-		docs
-		COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_SOURCE_DIR}/Doxyfile
-		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-		COMMENT "Generating Documentation with Doxygen"
-	)
-add_dependencies(docs 01PROJCMD)
-else()
-	message(STATUS "Doxygen not found, 'docs' target will be skipped")
-endif()
-
 add_custom_target(run_tests
 	COMMAND ${CMAKE_CTEST_COMMAND}
 )
@@ -85,6 +92,6 @@ add_custom_target(dev_build
 
 add_dependencies(dev_build clang-format)
 add_dependencies(dev_build 01PROJCMD)
-# add_dependencies(dev_build docs)
+add_dependencies(dev_build docs)
 add_dependencies(dev_build run_tests)
 
