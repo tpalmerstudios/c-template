@@ -85,6 +85,6 @@ add_custom_target(dev_build
 
 add_dependencies(dev_build clang-format)
 add_dependencies(dev_build 01PROJCMD)
-add_dependencies(dev_build docs)
+# add_dependencies(dev_build docs)
 add_dependencies(dev_build run_tests)
 
