@@ -46,25 +46,19 @@ if (ENABLE_WARNINGS)
 	target_compile_options(core PRIVATE -Wall -Wextra)
 endif()
 
-option(BUILD_DOCS "Build Documentation" ON)
+add_custom_target(docs)
+add_dependencies(docs 01PROJCMD)
 
 find_package(Doxygen)
-if (BUILD_DOCS AND DOXYGEN_FOUND)
-	add_custom_target(
-		docs
+if (DOXYGEN_FOUND)
+	add_custom_command(
+		TARGET docs
 		COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_SOURCE_DIR}/Doxyfile
 		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 		COMMENT "Generating Documentation with Doxygen"
 	)
-	add_dependencies(docs 01PROJCMD)
 else()
-	find_program(ECHO_EXE NAMES echo)
-	add_custom_target(
-		docs
-		COMMAND ${ECHO_EXE} "No documentation generated"
-		COMMENT "No error thrown to help GitHub Actions"
-	)
-	message(STATUS "Doxygen not found, 'docs' target will be skipped")
+	message(STATUS "Doxygen not found: skipping")
 endif()
 
 # clang-format target
