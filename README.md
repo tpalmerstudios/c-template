@@ -1,7 +1,7 @@
 # C-Template
 C-Template is a project made to save time in starting a new project. It uses a script to take the name of the project and a brief description and add that into Doxygen as well as creating and running  basic CMake setup. The key here is that it sets up a basic program structure and common targets to save time so you can focus on coding.
 
-[![Super-Linter](https://github.com/<OWNER>/<REPOSITORY>/actions/workflows/<WORKFLOW_FILE_NAME>/badge.svg)](https://github.com/marketplace/actions/super-linter)
+[![Super-Linter](https://github.com/tpalmerstudios/c-template/actions/workflows/super-linter.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
 ## Usage
 Run the `./template-setup.sh` script and input a name for the project as well as a description.
