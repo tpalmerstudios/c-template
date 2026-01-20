@@ -38,9 +38,9 @@ The generated project contains several targets and base files to build from.
 1. Documentation (Doxygen)
 2. Formatting and Linting (clang-format, shfmt)
    - `clang-format` is defined
-   - `super-linter` is added as a GitHub action
+   - `super-linter` is added as a GitHub Action
 3. Testing (ctest)
-   - Automated with GitHub workflows
+   - Automated with GitHub Action
 4. Issue Templates
 5. Meta Files
    - README.md
