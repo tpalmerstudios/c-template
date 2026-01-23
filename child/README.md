@@ -4,13 +4,7 @@
 
 ---
 
-## Quick Start
-
-Fork and rename
-Find and replace all variables Update the readme and the changelog
-~~Remove the install srcipt~~
-
-### Linux Install
+### Install
 
 ```bash
 cmake -B build
@@ -38,32 +32,36 @@ cd build
 ./01PROJCMD
 ```
 
-- ### clang-format
+### clang-format
 
-  The GNU Format is used by clang-format. And is automatically run by `make` when using either `build_all` or `clang-format` targets
+The GNU Format is used by clang-format. And is automatically run by `make` when using either `dev_build` or `clang-format` targets
+`clang-format -i fileName.ext` will also format the spcified file (tip: use \* and wildcards)
 
-- ### docs
+### docs
 
-  Doxygen is used for Documentation. And is automatically run by `make` when using either `build_all` or `docs` targets.
+Doxygen is required for documentation. And is automatically run by `make` when using either `dev_build` or `docs` targets.
+`doxygen Doxyfile` will also create documentation
 
-- ### ~~check~~
+### run-tests
 
-  ~~ctest is the CMake tester. It is not implemented yet. And is automatically run by `make` when using either `build_all` or `check` targets.~~
+ctest is the CMake tester. And is automatically run by `make` when using the `dev_build` target.
+`ctest` when run from the `build/` directory will also run the generated tests if they have been generated
 
-- ### 01PROJCMD
+### 01PROJCMD
 
-  01PROJCMD is the regular executable. And is automatically run by `make` when using either `build_all` or `prep` targets.
+01PROJCMD is the regular executable. And is automatically run by `make` when using either `dev_build` or `01PROJCMD` targets.
 
-- ### Debug
+### Debug
 
-  `cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug`
+`cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug`
 
-- ### ~~Windows~~
+### ~~Windows~~
 
-  ~~TO NOT DO~~
+~~TO NOT DO~~
 
-- ### ~~Other Platforms~~
-  ~~TODO~~
+### ~~Other Platforms~~
+
+~~TODO~~
 
 ---
 
@@ -81,7 +79,6 @@ Go into detail of all the configuration options as well as syntax of any command
 
 - Compiler like `gcc` or `clang`
 - `cmake`
-- `et cetera`
 
 ---
 

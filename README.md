@@ -11,7 +11,7 @@ Intended to set up a basic program structure and common targets to save time so 
 ## Usage
 
 ```bash
-./template-setup.sh
+./project-gen.sh
 ```
 
 Input a name for the project and a description.
@@ -54,7 +54,7 @@ The generated project contains several targets and base files to build from.
 
 ```bash
 cd ../proj-name
-./test-install.sh
+./post-install.sh
 ```
 
 This runs cmake with all targets including documentation.
