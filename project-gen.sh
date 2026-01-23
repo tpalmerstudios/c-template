@@ -104,6 +104,7 @@ if [ ! -d "$install_path" ]; then
 	echo "Project Will Be installed as a subdirectory with the name you give it"
 	exit 1
 fi
+install_path="${install_path%/}"
 
 read -r -p "Project Name: " proj_readable
 

@@ -1,7 +1,6 @@
 #!/bin/bash
 
-echo "This should be run after the basic $(git init) and copy of the files to the proper directory"
-
+PWD="${PWD%/}"
 echo "${PWD##*/}"
 
 read -r -p "Type the project name. Must match the Current Directory: " input_dir
