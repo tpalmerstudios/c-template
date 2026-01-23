@@ -29,8 +29,8 @@ version_output() {
 }
 
 help_output() {
-	echo "Usage ./template-setup.sh [OPTION]"
-	echo "Install a stub C Project to a sister directory"
+	echo "Usage ./project-gen.sh [OPTION]"
+	echo "Install a stub C Project to a directory"
 	echo ""
 	echo "-v, --version			output version information and exit"
 	echo "-h, --help			display this help and exit"
