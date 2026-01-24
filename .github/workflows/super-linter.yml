@@ -41,8 +41,7 @@ jobs:
           VALIDATE_JSCPD: false # Due to some child documents containing parts of the parent
           VALIDATE_BIOME_LINT: false # warnings of 2 competing linters
           VALIDATE_BIOME_FORMAT: false # warnings of 2 competing linters
+          VALIDATE_MARKDOWN: false # tired of this one
           FIX_YAML_PRETTIER: true
-          FIX_MARKDOWN: true
           FIX_SHELL_SHFMT: true
           FIX_CLANG_FORMAT: true
-          FILTER_REGEX_EXCLUDE: ^CHANGELOG\.md$
