@@ -45,3 +45,4 @@ jobs:
           FIX_MARKDOWN: true
           FIX_SHELL_SHFMT: true
           FIX_CLANG_FORMAT: true
+          FILTER_REGEX_EXCLUDE: ^CHANGELOG\.md$

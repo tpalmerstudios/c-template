@@ -44,7 +44,8 @@ All notable changes to my C Template Generator will be documented here.
 
 ## [1.2.0] - 2026-01-11
 
-- Automate the naming of proj_upper to replace spaces with underscore and remove special characters and move to upper case
+- Automate the naming of proj_upper to replace spaces with underscore
+- remove special characters and move to upper case
 - Validate input
 
 ## [1.1.0] - 2026-01-11
@@ -61,59 +62,72 @@ All notable changes to my C Template Generator will be documented here.
 ## [0.1.1] - 2026-01-10
 
 ### Changed
+
 - Updated documentation
 - Tested the project
 
 ### Added
+
 - Added a version header file in C
 
 ## [0.0.7] - 2026-01-10
 
 ### Added
+
 - Added this changelog
 - Added a contributing guide
 
 ### Changed
+
 - Used unique strings as variables throughout the project
-- Updated the Readme to document current functionality
+- Updated the readme to document current functionality
 
 ### Removed
+
 - Todo (never used, changelog replaces)
 
 ## [0.0.6] - 2026-01-10
 
 ### Added
+
 - Added basic C program
 
 ### Changed
+
 - Readme has formatting and spacing fixes
 - CMake dependencies adjusted and tested
 
 ## [0.0.5] - 2026-01-10
 
 ### Changed
-- Separated Implementation Portion of License into Readme
+
+- Separated Implementation Portion of License into readme
 
 ### Added
-- Simple Readme for both projects
+
+- Simple readme for both projects
 
 ## [0.0.4] - 2026-01-10
 
 ### Added
+
 - Created a basic `.clang-format`
-- Created empty Readme and Todo
+- Created empty readme and Todo
 
 ## [0.0.3] - 2026-01-10
 
 ### Added
+
 - Copied `Doxyfile` from `rabbithole` and edited
 
 ## [0.0.2] - 2026-01-10
 
 ### Added
+
 - Copied `CMakeLists.txt` from `rabbithole` and edited
 
 ## [0.0.1] - 2026-01-10
 
 ### Added
+
 - Add a license and gitignore,
