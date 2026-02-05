@@ -1,0 +1,50 @@
+/**
+ * @file: config.h
+ * @brief: Source for auto-generated constants
+ */
+
+/*
+ * project: C-Template
+ * module: config
+ * created: 2026-02-05
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * author: Tim Palmer
+ */
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define PROJ_NAME "@PROJECT_NAME@"
+#define PROJ_DESC "@PROJECT_DESCRIPTION@"
+#define VERSION "@PROJECT_VERSION@"
+#define VERSION_MAJOR @PROJECT_VERSION_MAJOR@
+#define VERSION_MINOR @PROJECT_VERSION_MINOR@
+#define VERSION_PATCH @PROJECT_VERSION_PATCH@
+
+#define PLATFORM "@CMAKE_SYSTEM_NAME@"
+#define TARGET_ARCH "@CMAKE_SYSTEM_PROCESSOR@"
+#define CROSS_COMPILE @CROSS_COMPILE@
+#define COMPILER_ID "@CMAKE_C_COMPILER_ID@"
+#define COMPILER_VERSION "@CMAKE_C_COMPILER_VERSION@"
+#define CONFIG_TIMESTAMP "@CONFIG_TIMESTAMP@"
+
+#define DEF_TEMPLATE_DIR "templates/"
+
+#ifdef DEBUG
+#define DEF_LOG_LEVEL VERBOSE
+#define BUILD_TYPE "Debug"
+#define GIT_DIRTY @GIT_DIRTY_FLAG@
+#define GIT_COMMIT "@GIT_COMMIT@"
+#else
+#define DEF_LOG_LEVEL ERROR
+#define BUILD_TYPE "Release"
+// These should be set for runs on machines without git... TODO
+#define GIT_DIRTY 0
+#define GIT_COMMIT "000000"
+#endif
+
+/*
+ * #define INSTALL_PREFIX NULL
+ * #define DEF_CONFIG_DIR NULL
+ * #define
+ */
+#endif // CONFIG_H

@@ -13,6 +13,7 @@ initFlags (int argc, char *argv[])
 	int c;
 	enum
 	{
+		// NEW FLAGS CAN BE ADDED ABOVE 255
 		OPT_FLAG_NAME = 256
 	};
 	static const struct option long_options[] = { { "flagName", no_argument, 0, OPT_FLAG_NAME },

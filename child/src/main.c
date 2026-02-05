@@ -43,6 +43,7 @@ main (int argc, char *argv[])
 #endif
 			printf ("Hello, World!\n");
 			loop = 0;
+			logMessage (WARNING, "warning: loop set to %d", loop);
 			logMessage (INFO, "loop set to %d", loop);
 		}
 	closeLog ();

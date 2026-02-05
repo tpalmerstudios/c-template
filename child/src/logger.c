@@ -56,7 +56,7 @@ logMessage (int level, const char *message, ...)
 
 	va_list args;
 	va_start (args, message);
-	vsnprintf (buffer, LOG_LENGTH, message, args);
+	vsnprintf (buffer, sizeof (buffer), message, args);
 	va_end (args);
 
 	logSink (buffer, level);
