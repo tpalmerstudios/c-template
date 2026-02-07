@@ -102,19 +102,6 @@ else()
 	message(STATUS "Doxygen not found: skipping")
 endif()
 
-# clang-format target
-find_program(CLANG_FORMAT_EXE NAMES clang-format)
-
-if(CLANG_FORMAT_EXE AND ALL_C_FILES)
-	add_custom_target(
-		clang-format
-		COMMAND ${CLANG_FORMAT_EXE} -i ${ALL_C_FILES}
-		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-		COMMENT "Running clang-format on source and include files"
-	)
-else()
-	message(STATUS "clang-format not found, 'clang-format' target will be skipped")
-endif()
 
 add_custom_target(run_tests
 	COMMAND ${CMAKE_CTEST_COMMAND}
@@ -125,7 +112,6 @@ add_dependencies(run_tests flags)
 add_custom_target(dev_build
 	COMMENT "Build all targets: 01PROJCMD, formatting, and documentation")
 
-add_dependencies(dev_build clang-format)
 add_dependencies(dev_build 01PROJCMD)
 add_dependencies(dev_build docs)
 add_dependencies(dev_build run_tests)

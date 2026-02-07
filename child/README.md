@@ -22,24 +22,15 @@ make 01PROJCMD
 | `-v`         |        | output version information and exit |
 | `-h`         |        | output help information and exit    |
 
-### ~~Windows~~
-
-~~TO NOT DO~~
-
 ### ~~Other Platforms~~
 
-~~TODO~~
+Add in any other platforms that are supported and example usage
 
 ---
 
 ## Usage
 
-| Other Flags  | Values | Description                         |
-| ------------ | ------ | ----------------------------------- |
-| `--flagName` |        | Run 01PROJTEMP in a flags mode      |
-| `-v`         |        | output version information and exit |
-| `-h`         |        | output help information and exit    |
-
+This is where the developer should go in depth on more detailed usage, a fuller flag table and example commands.
 Go into detail of all the configuration options as well as syntax of any commands.
 
 ## Dependencies
@@ -51,7 +42,7 @@ Go into detail of all the configuration options as well as syntax of any command
 
 ## Contact
 
-**[obsoleteTiger@protonmil.com](mailto:obsoleteTiger@protonmail.com)** is the best way to contact me.
+**[obsoleteTiger@protonmail.com](mailto:obsoleteTiger@protonmail.com)** is the best way to contact me.
 In an emergency, try calling +1 911. _(/s)_
 
 ## License
