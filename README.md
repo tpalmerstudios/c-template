@@ -1,6 +1,6 @@
 # C-Template
 
-![C-Template Logo](https://github.com/tpalmerstudios/c-template/blob/main/assets/banner-small-trans.png)
+![C-Template Logo](https://github.com/tpalmerstudios/c-template/blob/main/assets/inkscape-logo.svg)
 
 C-Template is a project made to save time in starting a new project. It uses a script to take the name of the project and a brief description and add that into Doxygen as well as creating and running basic CMake setup.
 
