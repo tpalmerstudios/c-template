@@ -39,6 +39,7 @@
 child/build/
 child/docs/
 child/.cache/
+child/log.txt
 .cache/
 node_modules
 package.json
