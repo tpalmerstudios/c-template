@@ -13,6 +13,17 @@
 #ifndef INVOCATION_H
 #define INVOCATION_H
 
+#include <stdlib.h>
+#include <string.h>
+
+#if defined(_WIN32) || defined(_WIN64)
+#include <direct.h>
+#else
+#include <unistd.h>
+#endif
+
+#define MAX_PATH_LEN    4096
+
 typedef struct 
 {
     int argc;
@@ -27,11 +38,5 @@ typedef struct
  * @return pointer to invocation structure
  */
 invocation_t* initInvocation(int argc, char *argv[]);  
-
-/**
- * @brief Get current directory
- * @return current directory path
- */
-char* getCurrentDirectory();
 
 #endif // INVOCATION_H

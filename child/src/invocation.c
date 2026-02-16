@@ -13,6 +13,13 @@
 
 #include "invocation.h"
 
+
+/**
+ * @brief Get current directory
+ * @param[in] cwd point to char to populate the buffer
+ */
+static void getCurrentDirectory(char* cwd);
+
  invocation_t* initInvocation(int argc, char *argv[])
  {
     invocation_t *localInvocation = (invocation_t*)malloc(sizeof(invocation_t));
@@ -24,9 +31,44 @@
 
         //Deep copy argv
         localInvocation->argv = (char**)malloc((argc+1)* sizeof(char*));
+        if (localInvocation->argv != NULL)
+        {
+            localInvocation->argv = argv;
+        }
+        else
+        {
+            //TODO: Log the error
+            return NULL;
+        }
+
+        
+        
     }
-    else{
-        // Log the error 
+    else
+    {
+        //TODO: Log the error 
         return NULL;
     }
+    return localInvocation;
+ }
+
+
+static void getCurrentDirectory(char* cwd)
+ {
+    char buffer[MAX_PATH_LEN];
+
+#if defined(_WIN32) || defined(_WIN64)
+    if(_getcwd(buffer, sizeof(buffer)) == NULL)
+    {
+        //Log the error
+    }
+#else
+    if(getcwd(buffer, sizeof(buffer)) == NULL)
+    {
+        // Log the error
+    }
+#endif
+
+    // Doing safe copy into the argument
+    strlcpy(cwd, buffer, sizeof(cwd));
  }
