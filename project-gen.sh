@@ -3,6 +3,8 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+
 complete_output() {
 	echo "Project $proj_command set up successfully!"
 	echo ""
@@ -199,12 +201,12 @@ fi
 
 if [ "$do_git" = true ]; then
 	git init "$target_dir"
-	cp -r ./.github/ "$target_dir"
-	cp ./.gitignore "$target_dir"
+	cp -r -- "$SCRIPT_DIR/.github/" "$target_dir"
+	cp -- "$SCRIPT_DIR/.gitignore" "$target_dir"
 fi
 
 # child dir copy
-if cp -a ./child/. "$target_dir/"; then
+if cp -a -- "$SCRIPT_DIR/child/." "$target_dir/"; then
 	echo "Copied 'child' to $target_dir"
 else
 	echo "Failed to copy 'child'"
