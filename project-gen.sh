@@ -1,5 +1,10 @@
 #!/bin/bash
 
+set -euo pipefail
+IFS=$'\n\t'
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+
 complete_output() {
 	echo "Project $proj_command set up successfully!"
 	echo ""
@@ -43,9 +48,15 @@ help_output() {
 	echo "Questions for the author: <obsoleteTiger@protonmail.com>"
 }
 
+# Unsure how to do this for bulk actions
 #sed_inplace() {
 #	sed -i.bak "$@" && rm -f "$1.bak"
 #}
+
+sed_escape_repl() {
+	# escape: backslash, ampersand, and delimiter |
+	printf '%s' "$1" | sed -e 's/[\\&|]/\\&/g'
+}
 
 force=false
 version=false
@@ -53,45 +64,62 @@ remove=false
 do_git=true
 show_help=false
 install_path=".."
-optind=0
-args=("$@")
-argc=$#
 
-while [ $optind -lt $argc ]; do
-	param="${args[$optind]}"
+while getopts ":vhfrnp:-:" opt; do
+	case "$opt" in
+	v) version=true ;;
+	h) show_help=true ;;
+	f) force=true ;;
+	r) remove=true ;;
+	n) do_git=false ;;
+	p) install_path="$OPTARG" ;;
 
-	case "$param" in
-	--version | -v)
-		version=true
-		;;
-	--force)
-		force=true
-		;;
-	--remove)
-		remove=true
-		;;
-	--no-git)
-		do_git=false
-		;;
-	--help | -h | help)
-		show_help=true
-		;;
-	--path)
-		next=$((optind + 1))
-		if [ $next -ge $argc ]; then
-			echo "\"--path some/path\" is the proper syntax"
+	-)
+		case "$OPTARG" in
+		version) version=true ;;
+		help) show_help=true ;;
+		force) force=true ;;
+		remove) remove=true ;;
+		no-git) do_git=false ;;
+		path)
+			# path DIR
+			install_path="${!OPTIND}"
+			OPTIND=$((OPTIND + 1))
+			if [ -z "${install_path:-}" ]; then
+				echo "\"--path some/path\" is the proper syntax"
+				exit 1
+			fi
+			;;
+		path=*)
+			# --path=DIR
+			install_path="${OPTARG#path=}"
+			if [ -z "${install_path:-}" ]; then
+				echo "\"--path some/path\" is the proper syntax"
+				exit 1
+			fi
+			;;
+		*)
+			echo "Unknown Option: --$OPTARG"
 			exit 1
-		fi
-		install_path="${args[$next]}"
-		optind=$((optind + 1))
+			;;
+		esac
 		;;
-	*)
-		echo "Unknown Option: $param"
+	:)
+		echo "Option -$OPTARG requires an argument"
+		exit 1
+		;;
+	\?)
+		echo "Unknown Option: -$OPTARG"
 		exit 1
 		;;
 	esac
-	optind=$((optind + 1))
 done
+
+shift $((OPTIND - 1))
+if [ "$#" -ne 0 ]; then
+	echo "Unexpected arguments: $*"
+	exit 1
+fi
 
 if [ "$version" = true ]; then
 	version_output
@@ -101,6 +129,13 @@ fi
 if [ "$show_help" = true ]; then
 	help_output
 	exit 0
+fi
+
+if [ "$do_git" = true ]; then
+	command -v git >/dev/null || {
+		echo "git not found (use --no-git)"
+		exit 1
+	}
 fi
 
 if [ ! -d "$install_path" ]; then
@@ -114,13 +149,16 @@ read -r -p "Project Name: " proj_readable
 
 proj_command=${proj_readable//[^[:alnum:] ]/}
 proj_command=${proj_command//[[:space:]]/_}
+
+if [ -z "$proj_command" ]; then
+	echo "Project name produced an empty directory name. Use letters/numbers."
+	exit 1
+fi
+
 proj_upper=${proj_command^^}
+target_dir="$install_path/$proj_command"
 
 read -r -p "Project description in 1-2 Sentences: " proj_description
-proj_description=${proj_description//\\/\\\\}
-proj_description=${proj_description//\"/\\\"}
-proj_description=${proj_description//\$/\\\$}
-proj_description=${proj_description//;/\\;}
 
 echo "Regular Name:		${proj_readable}"
 echo "Upper Case:		${proj_upper}"
@@ -132,22 +170,22 @@ if [[ "${confirm}" != "y" && "${confirm}" != "Y" ]]; then
 	exit 1
 fi
 
-if [ "$remove" = true ] && [ -d "$install_path/$proj_command" ]; then
-	echo "Removing the directory: '$install_path/$proj_command'"
+if [ "$remove" = true ] && [ -d "$target_dir" ]; then
+	echo "Removing the directory: '$target_dir'"
 	read -r -p "Type the name of the directory to confirm. ($proj_command): " confirm_remove
 	if [[ "${proj_command}" != "${confirm_remove}" ]]; then
 		echo "Nothing Done... Exiting!"
 		exit 1
 	else
-		rm -rf "${install_path:?}/$proj_command"
-		echo "Removed $install_path/$proj_command"
+		rm -rf -- "${target_dir:?}"
+		echo "Removed $target_dir"
 	fi
 fi
 
-if [ -d "$install_path/$proj_command" ]; then
-	echo "'$install_path/$proj_command' already exists."
+if [ -d "$target_dir" ]; then
+	echo "'$target_dir' already exists."
 	if [ "$force" = true ]; then
-		echo "Using existing directory $install_path/$proj_command due to --force"
+		echo "Using existing directory $target_dir due to --force"
 	else
 		echo "Use \"--force\" to overwrite."
 		echo "Exiting"
@@ -155,33 +193,36 @@ if [ -d "$install_path/$proj_command" ]; then
 	fi
 fi
 
-mkdir -p "$install_path/$proj_command"
-if [ ! -d "$install_path/$proj_command" ]; then
+mkdir -p "$target_dir"
+if [ ! -d "$target_dir" ]; then
 	echo "Directory not created. Exiting"
 	exit 1
 fi
 
 if [ "$do_git" = true ]; then
-	git init "$install_path/$proj_command"
-	cp -r ./.github/ "$install_path/$proj_command"
-	cp ./.gitignore "$install_path/$proj_command"
-	echo "$proj_description" >"$install_path"/"$proj_command"/.git/description
+	git init "$target_dir"
+	cp -r -- "$SCRIPT_DIR/.github/" "$target_dir"
+	cp -- "$SCRIPT_DIR/.gitignore" "$target_dir"
 fi
 
 # child dir copy
-if cp -r ./child/* "$install_path/$proj_command"; then
-	echo "Copied 'child' to $install_path/$proj_command"
+if cp -a -- "$SCRIPT_DIR/child/." "$target_dir/"; then
+	echo "Copied 'child' to $target_dir"
 else
 	echo "Failed to copy 'child'"
 	exit 1
 fi
 
-cd "$install_path/$proj_command" || exit 1
+cd "$target_dir"
 
-find . -type f -exec sed -i "s|01PROJCMD|$proj_command|g" {} +
-find . -type f -exec sed -i "s|01PROJTEMP|$proj_readable|g" {} +
-find . -type f -exec sed -i "s|01PROJDESC|$proj_description|g" {} +
-find . -type f -exec sed -i "s|01PROJUPPER|$proj_upper|g" {} +
+proj_command_s=$(sed_escape_repl "$proj_command")
+proj_readable_s=$(sed_escape_repl "$proj_readable")
+proj_description_s=$(sed_escape_repl "$proj_description")
+proj_upper_s=$(sed_escape_repl "$proj_upper")
+find . -type f -exec sed -i "s|01PROJCMD|$proj_command_s|g" {} +
+find . -type f -exec sed -i "s|01PROJTEMP|$proj_readable_s|g" {} +
+find . -type f -exec sed -i "s|01PROJDESC|$proj_description_s|g" {} +
+find . -type f -exec sed -i "s|01PROJUPPER|$proj_upper_s|g" {} +
 
 if [ "$do_git" = true ]; then
 	git add .

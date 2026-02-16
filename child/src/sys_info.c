@@ -12,6 +12,7 @@
  */
 
 #include "sys_info.h"
+#include <stdio.h>
 
 void
 getPlatformInfo ()

@@ -2,6 +2,13 @@
 
 All notable changes to my C Template Generator will be documented here.
 
+## [2.4.0] - 2026-02-03
+
+### Added
+
+- Add sys_info module
+- Refactor project generation
+
 ## [2.2.0] - 2026-02-03
 
 ### Added
