@@ -63,3 +63,4 @@ dkms.conf
 
 # debug information files
 *.dwo
+.vscode/settings.json
