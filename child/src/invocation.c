@@ -19,12 +19,11 @@
  * @brief Get current directory
  * @param[in] cwd point to char to populate the buffer
  */
-static void getCurrentDirectory(char* cwd);
+static char * getCurrentDirectory();
 
 invocation_t* initInvocation(int argc, char *argv[])
 {
     invocation_t *localInvocation = (invocation_t*)malloc(sizeof(invocation_t));
-    char localCwd[MAX_PATH_LEN];
 
     if(localInvocation != NULL)
     {
@@ -60,8 +59,7 @@ invocation_t* initInvocation(int argc, char *argv[])
             return NULL;
         }
 
-        getCurrentDirectory(localCwd);
-        localInvocation->cwd = localCwd;
+        localInvocation->cwd = getCurrentDirectory();
 
         if(!localInvocation->cwd)
         {
@@ -87,8 +85,7 @@ invocation_t* initInvocation(int argc, char *argv[])
 
 void freeInvocation(invocation_t *inv)
 {
-    if (!inv)
-        return;
+    if (!inv) return;
 
     // Free the individual memory from the array
     if (inv->argv)
@@ -100,14 +97,12 @@ void freeInvocation(invocation_t *inv)
         free(inv->argv);
         inv->argv = NULL;
     }
-
     // Free the cwd path
     if (inv->cwd)
     {
         free(inv->cwd);
         inv->cwd = NULL;
     }
-
     inv->argc = 0;
 }
 
@@ -123,26 +118,28 @@ void printInvocation(const invocation_t *inv)
     }
 }
 
-static void getCurrentDirectory(char* cwd)
+static char * getCurrentDirectory()
 {
     char buffer[MAX_PATH_LEN];
+    char *result = NULL;
 
 #if defined(_WIN32) || defined(_WIN64)
     if(_getcwd(buffer, sizeof(buffer)) == NULL)
     {
-        //Log the error
-        cwd = NULL;
+        logMessage (ERROR, "Could not get the current directory");
+        result = NULL;
     }
 #else
     if(getcwd(buffer, sizeof(buffer)) == NULL)
     {
-        // Log the error
-        cwd = NULL;
+        logMessage (ERROR, "Could not get the current directory");
+        result = NULL;
     }
 #endif
     else
     {
         // Doing safe copy into the argument
-        strncpy(cwd, buffer, sizeof(buffer));
+        result = strdup(buffer);
     }
+    return result;
 }
