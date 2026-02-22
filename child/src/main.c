@@ -14,6 +14,7 @@
 #include "flags.h"
 #include "logger.h"
 #include "sys_info.h"
+#include "invocation.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>

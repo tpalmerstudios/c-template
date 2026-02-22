@@ -46,6 +46,7 @@ package.json
 package-lock.json
 .textlintrc.json
 config.h
+build/
 
 # Debug files
 *.dSYM/
@@ -64,3 +65,4 @@ dkms.conf
 
 # debug information files
 *.dwo
+.vscode/settings.json
