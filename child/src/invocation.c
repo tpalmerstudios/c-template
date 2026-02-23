@@ -13,7 +13,6 @@
 
 #include "invocation.h"
 #include "logger.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -23,115 +22,99 @@
 #include <unistd.h>
 #endif
 
+static int isInit = 0;
+static invocation_t g_inv;
+
 /**
  * @brief Get current directory
  * @param[in] cwd point to char to populate the buffer
  */
 static char *getCurrentDirectory ();
 
-invocation_t *
+int
 initInvocation (int argc, char *argv[])
 {
-	invocation_t *localInvocation = (invocation_t *)malloc (sizeof (invocation_t));
-
-	if (localInvocation != NULL)
+	if (isInit != 0)
 		{
 			// Store argc
-			localInvocation->argc = argc;
+			g_inv.argc = argc;
 
 			// Deep copy argv
-			localInvocation->argv = (char **)malloc ((argc + 1) * sizeof (char *));
-			if (localInvocation->argv != NULL)
+			g_inv.argv = (char **)malloc ((argc + 1) * sizeof (char *));
+			if (g_inv.argv != NULL)
 				{
 					for (int i = 0; i < argc; i++)
 						{
-							localInvocation->argv[i] = strdup (argv[i]); // Creates a new copy
-							if (!localInvocation->argv[i])
+							g_inv.argv[i] = strdup (argv[i]); // Creates a new copy
+							if (!g_inv.argv[i])
 								{
 									// If there is any failure to allocate to any of the given
 									// input. Free the memory
 									for (int j = 0; j < i; j++)
-										{
-											free (localInvocation->argv[i]);
-										}
-									free (localInvocation->argv);
-									free (localInvocation);
+										free (g_inv.argv[i]);
+									free (g_inv.argv);
 									logMessage (ERROR, "Could not allocate memory for argv[%d]", i);
-									return NULL;
+									return -1;
 								}
 						}
-					localInvocation->argv[argc]
-						= NULL; // Argument array must always have a NULL terminated
+					g_inv.argv[argc] = NULL;
+					// Argument array must always have a NULL terminated
 				}
 			else
 				{
 					logMessage (ERROR, "Could not allocate memory for argv");
-					free (localInvocation); // Free the space
-					return NULL;
+					return -1;
 				}
 
-			localInvocation->cwd = getCurrentDirectory ();
+			g_inv.cwd = getCurrentDirectory ();
 
-			if (!localInvocation->cwd)
+			if (!g_inv.cwd)
 				{
 					for (int i = 0; i < argc; i++)
-						{
-							free (localInvocation->argv[i]);
-						}
+						free (g_inv.argv[i]);
 
-					free (localInvocation->argv);
-					free (localInvocation);
+					free (g_inv.argv);
 					logMessage (ERROR, "Could not allocate memory for cwd");
-					return NULL;
+					return -1;
 				}
 		}
 	else
 		{
 			logMessage (ERROR, "Could not allocate memory for invocation structure");
-			return NULL;
+			return -1;
 		}
-	return localInvocation;
+	isInit = 1;
+	return 0;
 }
 
 void
-freeInvocation (invocation_t *inv)
+freeInvocation (void)
 {
-	if (!inv)
+	if (!isInit)
 		return;
 
 	// Free the individual memory from the array
-	if (inv->argv)
+	if (g_inv.argv)
 		{
-			for (int i = 0; i < inv->argc; i++)
-				{
-					free (inv->argv[i]);
-				}
-			free (inv->argv);
-			inv->argv = NULL;
+			for (int i = 0; i < g_inv.argc; i++)
+				free (g_inv.argv[i]);
+			free (g_inv.argv);
+			g_inv.argv = NULL;
 		}
 	// Free the cwd path
-	if (inv->cwd)
+	if (g_inv.cwd)
 		{
-			free (inv->cwd);
-			inv->cwd = NULL;
+			free (g_inv.cwd);
+			g_inv.cwd = NULL;
 		}
-	inv->argc = 0;
+	g_inv.argc = 0;
+	isInit = 0;
 }
 
-void
-printInvocation (const invocation_t *inv)
+const invocation_t *
+getInvocation (void)
 {
-	if (!inv)
-		{
-			return;
-		}
-
-	printf ("CWD  : %s\n", inv->cwd);
-	printf ("argc : %d\n", inv->argc);
-	for (int i = 0; i < inv->argc; i++)
-		{
-			printf ("argv[%d]: %s\n", i, inv->argv[i]);
-		}
+	return &g_inv;
 }
 
 static char *
