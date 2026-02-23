@@ -45,9 +45,45 @@ runProgram (void)
 #endif
 }
 
-/*
- * Add a startup() function he
- */
+int
+startup (int argc, char *argv[])
+{
+	int error = 0;
+
+	if (error = initLog ("log.txt", VERBOSE) != 0)
+		{
+			printf ("Log failed!\n");
+			error = 1;
+		}
+	if (initInvocation (argc, argv) != 0)
+		{
+			logMessage (ERROR, "Invocation failed!");
+			error += 1;
+		}
+	else
+		logMessage (INFO, "Invocation saved");
+	const invocation_t *inv = getInvocation ();
+	// @RJain18 This cwd does not work currently
+	logMessage (INFO, "Invocation Current Directory: %s", inv->cwd);
+	initFlags (argc, argv);
+	getDateAndTime ();
+	getPlatformInfo ();
+	const Flags *flags = getFlags ();
+	if (flags->printFlags)
+		exit (0);
+	if (flags->flagName)
+		printf ("Example Flag Mode\n");
+
+	return error;
+}
+
+void
+shutdown ()
+{
+	freeInvocation ();
+	closeLog ();
+	return;
+}
 
 /************************************
  * @brief Entry Point for 01PROJTEMP
@@ -58,24 +94,10 @@ main (int argc, char *argv[])
 #ifdef DEBUG
 	DBG ("Main Start");
 #endif
-	if (initLog ("log.txt", VERBOSE) != 0)
-		printf ("Log failed!\n");
-	initInvocation (argc, argv);
-	logMessage (INFO, "Invocation Saved");
-	const invocation_t *inv = getInvocation ();
-	logMessage (INFO, "Invocation Current Directory: %s", inv->cwd);
-	initFlags (inv->argc, inv->argv);
-	getDateAndTime ();
-	getPlatformInfo ();
-	const Flags *flags = getFlags ();
-	if (flags->printFlags)
-		exit (0);
-	if (flags->flagName)
-		printf ("Example Flag Mode\n");
-
+	if (startup (argc, argv) != 0)
+		printf ("Startup Failed\n");
 	runProgram ();
-	freeInvocation ();
-	closeLog ();
+	shutdown ();
 #ifdef DEBUG
 	DBG ("Main End");
 #endif
