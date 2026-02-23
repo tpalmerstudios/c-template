@@ -34,7 +34,7 @@ static char *getCurrentDirectory ();
 int
 initInvocation (int argc, char *argv[])
 {
-	if (isInit != 0)
+	if (isInit == 0)
 		{
 			// Store argc
 			g_inv.argc = argc;
@@ -77,13 +77,13 @@ initInvocation (int argc, char *argv[])
 					logMessage (ERROR, "Could not allocate memory for cwd");
 					return -1;
 				}
+			isInit = 1;
 		}
 	else
 		{
-			logMessage (ERROR, "Could not allocate memory for invocation structure");
+			logMessage (WARNING, "Invocation already initialized");
 			return -1;
 		}
-	isInit = 1;
 	return 0;
 }
 

@@ -50,7 +50,7 @@ startup (int argc, char *argv[])
 {
 	int error = 0;
 
-	if (error = initLog ("log.txt", VERBOSE) != 0)
+	if (initLog ("log.txt", VERBOSE) != 0)
 		{
 			printf ("Log failed!\n");
 			error = 1;
@@ -63,7 +63,6 @@ startup (int argc, char *argv[])
 	else
 		logMessage (INFO, "Invocation saved");
 	const invocation_t *inv = getInvocation ();
-	// @RJain18 This cwd does not work currently
 	logMessage (INFO, "Invocation Current Directory: %s", inv->cwd);
 	initFlags (argc, argv);
 	getDateAndTime ();
