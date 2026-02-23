@@ -14,15 +14,6 @@
 #ifndef SYS_INFO_H
 #define SYS_INFO_H
 
-#include <time.h>
-
-// Include necessary headers based on the platform
-#if defined(_WIN32) || defined(_WIN64)
-#include <windows.h>
-#else
-#include <sys/utsname.h>
-#endif
-
 /**
  * @brief gets platform information
  */

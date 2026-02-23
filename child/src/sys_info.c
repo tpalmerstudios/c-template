@@ -13,6 +13,14 @@
 
 #include "sys_info.h"
 #include <stdio.h>
+#include <time.h>
+
+// Include necessary headers based on the platform
+#if defined(_WIN32) || defined(_WIN64)
+#include <windows.h>
+#else
+#include <sys/utsname.h>
+#endif
 
 void
 getPlatformInfo ()
@@ -25,7 +33,8 @@ getPlatformInfo ()
 	if (GetVersionEx ((OSVERSIONINFO *)&osVersionInfo))
 		{
 			printf ("Platform: Windows\n");
-			printf ("Version: %lu.%lu\n", osVersionInfo.dwMajorVersion, osVersionInfo.dwMinorVersion);
+			printf ("Version: %lu.%lu\n", osVersionInfo.dwMajorVersion,
+					osVersionInfo.dwMinorVersion);
 			printf ("Build: %lu\n", osVersionInfo.dwBuildNumber);
 		}
 
@@ -67,47 +76,48 @@ getPlatformInfo ()
 #endif
 }
 
-void getDateAndTime ()
+void
+getDateAndTime ()
 {
 #if defined(_WIN32) || defined(_WIN64)
-    time_t now = time(NULL);
-    struct tm timeInfo;
-    if (localtime_s(&timeInfo, &now) == 0)
-    {
-        char buf[64];
-        strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", &timeInfo);
-        SYSTEMTIME systemTime;
-        GetLocalTime(&systemTime);
-        printf("Date and Time: %s.%03u\n", buf, (unsigned)systemTime.wMilliseconds);
-    }
-    else
-    {
-        printf("localtime_s() failed\n");
-    }
+	time_t now = time (NULL);
+	struct tm timeInfo;
+	if (localtime_s (&timeInfo, &now) == 0)
+		{
+			char buf[64];
+			strftime (buf, sizeof (buf), "%Y-%m-%d %H:%M:%S", &timeInfo);
+			SYSTEMTIME systemTime;
+			GetLocalTime (&systemTime);
+			printf ("Date and Time: %s.%03u\n", buf, (unsigned)systemTime.wMilliseconds);
+		}
+	else
+		{
+			printf ("localtime_s() failed\n");
+		}
 #else
-    struct timespec timeSpec;
-    if (clock_gettime(CLOCK_REALTIME, &timeSpec) == 0)
-    {
-        struct tm timeInfo;
-        localtime_r(&timeSpec.tv_sec, &timeInfo);
-        char buf[64];
-        strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", &timeInfo);
-        printf("Date and Time: %s.%03ld\n", buf, timeSpec.tv_nsec / 1000000L);
-    }
-    else
-    {
-        time_t now = time(NULL);
-        struct tm timeInfo;
-        if (localtime_r(&now, &timeInfo))
-        {
-            char buf[64];
-            strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", &timeInfo);
-            printf("Date and Time: %s\n", buf);
-        }
-        else
-        {
-            printf("time retrieval failed\n");
-        }
-    }
+	struct timespec timeSpec;
+	if (clock_gettime (CLOCK_REALTIME, &timeSpec) == 0)
+		{
+			struct tm timeInfo;
+			localtime_r (&timeSpec.tv_sec, &timeInfo);
+			char buf[64];
+			strftime (buf, sizeof (buf), "%Y-%m-%d %H:%M:%S", &timeInfo);
+			printf ("Date and Time: %s.%03ld\n", buf, timeSpec.tv_nsec / 1000000L);
+		}
+	else
+		{
+			time_t now = time (NULL);
+			struct tm timeInfo;
+			if (localtime_r (&now, &timeInfo))
+				{
+					char buf[64];
+					strftime (buf, sizeof (buf), "%Y-%m-%d %H:%M:%S", &timeInfo);
+					printf ("Date and Time: %s\n", buf);
+				}
+			else
+				{
+					printf ("time retrieval failed\n");
+				}
+		}
 #endif
 }
