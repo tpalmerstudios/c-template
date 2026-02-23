@@ -1,6 +1,6 @@
 /**
- * @file: invocation.c
- * @brief: Source file for invocation modile
+ * @file invocation.c
+ * @brief Source file for invocation modile
  */
 
 /*

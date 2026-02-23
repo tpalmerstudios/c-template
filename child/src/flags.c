@@ -1,3 +1,15 @@
+/**
+ * @file flags.c
+ * @brief source file for flags module
+ */
+
+/*
+ * project: 01PROJTEMP
+ * module: flags
+ * created: 2026-01-21
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * author: Tim Palmer
+ */
 #include "flags.h"
 #include "messages.h"
 #include <getopt.h>

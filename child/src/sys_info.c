@@ -1,6 +1,6 @@
 /**
- * @file: sys_info.c
- * @brief: Source file for sys_info module
+ * @file sys_info.c
+ * @brief Source file for sys_info module
  */
 
 /*
@@ -15,7 +15,6 @@
 #include <stdio.h>
 #include <time.h>
 
-// Include necessary headers based on the platform
 #if defined(_WIN32) || defined(_WIN64)
 #include <windows.h>
 #else

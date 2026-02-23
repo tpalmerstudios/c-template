@@ -10,7 +10,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  * author: Tim Palmer
  */
-
 #ifndef LOGGER_H
 #define LOGGER_H
 

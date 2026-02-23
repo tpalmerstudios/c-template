@@ -1,6 +1,6 @@
 /**
- * @file: file_name
- * @brief: brief_desc
+ * @file file_name
+ * @brief brief_desc
  */
 
 /*

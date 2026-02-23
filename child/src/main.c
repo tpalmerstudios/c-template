@@ -12,9 +12,9 @@
  */
 
 #include "flags.h"
+#include "invocation.h"
 #include "logger.h"
 #include "sys_info.h"
-#include "invocation.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -60,9 +60,13 @@ main (int argc, char *argv[])
 #endif
 	if (initLog ("log.txt", VERBOSE) != 0)
 		printf ("Log failed!\n");
-	initFlags (argc, argv);
+	initInvocation (argc, argv);
+	logMessage (INFO, "Invocation Saved");
+	const invocation_t *inv = getInvocation ();
+	logMessage (INFO, "Invocation Current Directory: %s", inv->cwd);
+	initFlags (inv->argc, inv->argv);
 	getDateAndTime ();
-	getPlatformInfo();
+	getPlatformInfo ();
 	const Flags *flags = getFlags ();
 	if (flags->printFlags)
 		exit (0);
@@ -70,6 +74,7 @@ main (int argc, char *argv[])
 		printf ("Example Flag Mode\n");
 
 	runProgram ();
+	freeInvocation ();
 	closeLog ();
 #ifdef DEBUG
 	DBG ("Main End");
