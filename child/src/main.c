@@ -65,8 +65,22 @@ startup (int argc, char *argv[])
 	const invocation_t *inv = getInvocation ();
 	logMessage (INFO, "Invocation Current Directory: %s", inv->cwd);
 	initFlags (argc, argv);
-	getDateAndTime ();
-	getPlatformInfo ();
+
+	char currentTime[64];
+	if (getDateAndTime (currentTime, sizeof (currentTime), "%Y-%m-%d %H:%M:%S") == 0)
+		printf ("The current time is: %s\n", currentTime);
+	if (getTimeMS (currentTime, sizeof (currentTime), "%Y-%m-%d %H:%M:%S") == 0)
+		printf ("The current time is: %s\n", currentTime);
+
+	SysInfo info;
+	if (getPlatformInfo (&info) == 0)
+		{
+			printf ("Operating System: %s\n", info.os_name);
+			printf ("OS Version: %s\n", info.os_release);
+			printf ("Architecture: %s\n", info.arch);
+			printf ("Number of Cores: %d\n", info.cpu_count);
+			printf ("Page Size: %d\n", (int)info.page_size);
+		}
 	const Flags *flags = getFlags ();
 	if (flags->printFlags)
 		exit (0);
