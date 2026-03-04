@@ -11,6 +11,7 @@
  * author: Tim Palmer
  */
 
+#include "dictionary.h"
 #include "flags.h"
 #include "invocation.h"
 #include "logger.h"
@@ -86,6 +87,11 @@ startup (int argc, char *argv[])
 		exit (0);
 	if (flags->flagName)
 		printf ("Example Flag Mode\n");
+	hashTable *ht = initHashTable (1031);
+	if (insertHT (ht, "Pizza", "Cheese") != 0)
+		logMessage (INFO, "Insert Failed!");
+	printf ("Value is %s\n", getHT (ht, "Pizza"));
+	freeHashTable (&ht);
 
 	return error;
 }
