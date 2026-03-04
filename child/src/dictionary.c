@@ -15,6 +15,18 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef struct Entry
+{
+	char *key;
+	char *value;
+	struct Entry *next;
+} Entry;
+
+struct hashTable
+{
+	size_t size;
+	Entry **buckets;
+};
 // The famous DJB2 hash function
 // hash = hash * 33 + c
 // Beware of numbers larger than the table size

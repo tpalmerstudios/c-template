@@ -16,18 +16,7 @@
 // For size_t
 #include <stddef.h>
 
-typedef struct Entry
-{
-	char *key;
-	char *value;
-	struct Entry *next;
-} Entry;
-
-typedef struct
-{
-	size_t size;
-	Entry **buckets;
-} hashTable;
+typedef struct hashTable hashTable;
 
 hashTable *initHashTable (size_t maxSize);
 
