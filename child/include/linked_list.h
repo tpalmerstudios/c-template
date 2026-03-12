@@ -4,14 +4,14 @@
  */
 
 /*
- * project: practice
+ * project: 01PROJTEMP
  * module: Linked List
  * created: 2026-03-10
  * SPDX-License-Identifier: GPL-3.0-or-later
  * author: Tim Palmer
  */
-#ifndef LL_H
-#define LL_H
+#ifndef LINKED_LIST_H
+#define LINKED_LIST_H
 
 #include <stddef.h>
 
@@ -51,4 +51,4 @@ void *ctListData (ctLLNode_t *node);
 size_t ctListSize (ctLL_t *list);
 int ctListIsEmpty (ctLL_t *list);
 
-#endif // LL_H
+#endif // LINKED_LIST_H

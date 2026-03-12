@@ -4,14 +4,14 @@
  */
 
 /*
- * project: practice
+ * project: 01PROJTEMP
  * module: Data Structures
  * created: 2026-03-07
  * SPDX-License-Identifier: GPL-3.0-or-later
  * author: Tim Palmer
  */
-#ifndef DA_H
-#define DA_H
+#ifndef DYNAMIC_ARRAY_H
+#define DYNAMIC_ARRAY_H
 
 #include <stddef.h>
 
@@ -49,4 +49,4 @@ size_t ctDynamicArraySize (const ctDynamicArray_t *da);
 size_t ctDynamicArrayCapacity (const ctDynamicArray_t *da);
 void ctDynamicArrayClear (ctDynamicArray_t *da);
 
-#endif // DA_H
+#endif // DYNAMIC_ARRAY_H
