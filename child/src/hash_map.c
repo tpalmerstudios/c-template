@@ -19,6 +19,8 @@
 static unsigned long
 hash (const char *str)
 {
+	if (str == NULL)
+		return 0;
 	unsigned long hash = 5381;
 	int c;
 	while ((c = *str++))
@@ -26,15 +28,15 @@ hash (const char *str)
 	return hash;
 }
 
-size_t
+static size_t
 bucketIndex (const ctHM_t *map, unsigned long hash)
 {
-	if (map == NULL)
+	if (map == NULL || map->bucketCount == 0)
 		return 0;
 	return hash % map->bucketCount;
 }
 
-ctHMEntry_t *
+static ctHMEntry_t *
 entryCreate (const char *key, const char *value)
 {
 	if (key == NULL || value == NULL)
@@ -58,16 +60,16 @@ entryCreate (const char *key, const char *value)
 	entry->hash = hash (key);
 	return entry;
 }
-/*
-	if (map == NULL || key == NULL || value == NULL)
-		return NULL;
-	unsigned long hash = hash (key);
-	size_t index= bucketIndex (map, hash);
-	if (map->buckets[i] == NULL)
-		map->buckets[i] = ctListInit (sizeof (char *));
-	if (map->buckets[i] == NULL)
-		return NULL;
-		*/
+
+static void
+entryDestroy (ctHMEntry_t *entry)
+{
+	if (entry == NULL)
+		return;
+	free (entry->key);
+	free (entry->value);
+	free (entry);
+}
 
 ctHM_t *
 ctHMInit (size_t bucketCount)
@@ -86,7 +88,7 @@ ctHMInit (size_t bucketCount)
 	size_t i;
 	for (i = 0; i < bucketCount; i++)
 		{
-			map->buckets[i] = ctListInit (sizeof (ctHMEntry_t));
+			map->buckets[i] = ctListInit (sizeof (ctHMEntry_t *));
 			if (map->buckets[i] == NULL)
 				{
 					while (i-- > 0)
@@ -107,6 +109,7 @@ ctHMFree (ctHM_t *map)
 	if (map == NULL)
 		return;
 	size_t i;
+	ctHMEntry_t *entry;
 	if (map->buckets == NULL)
 		{
 			free (map);
@@ -115,9 +118,15 @@ ctHMFree (ctHM_t *map)
 	for (i = 0; i < map->bucketCount; i++)
 		if (map->buckets[i] != NULL)
 			{
-				/*
-				 * Need to free buckets keys
-				 */
+				while (map->buckets[i]->size != 0)
+					{
+						if (ctListPopBack (map->buckets[i], &entry) != 0)
+							{
+								// Add an error handler here
+								break;
+							}
+						entryDestroy (entry);
+					}
 				ctListFree (map->buckets[i]);
 			}
 	free (map->buckets);
@@ -132,6 +141,14 @@ ctHMSize (const ctHM_t *map)
 	return map->size;
 }
 
+int
+ctHMIsEmpty (const ctHM_t *map)
+{
+	if (map->size != 0)
+		return 1;
+	return 0;
+}
+
 void *
 ctHMGet (const ctHM_t *map, const char *key)
 {
@@ -139,10 +156,51 @@ ctHMGet (const ctHM_t *map, const char *key)
 }
 
 int
-ctHMPut (ctHM_t *map, const char *key, void *value)
+ctHMPut (ctHM_t *map, const char *key, const char *value)
 {
-	if (map == NULL || key == NULL)
+	if (map == NULL)
 		return -1;
-	unsigned long hash = hash (key);
+	ctHMEntry_t *entry = entryCreate (key, value);
+	if (entry == NULL)
+		return -1;
+	size_t i = bucketIndex (map, entry->hash);
+	if (map->buckets[i] == NULL)
+		return -1;
+	if (ctListInsertBack (map->buckets[i], entry) != 0)
+		return -1;
+	map->size++;
 	return 0;
+}
+
+void
+ctHMRemove (ctHM_t *map, void (*freeValue) (void *))
+{
+	if (map == NULL)
+		return;
+}
+int ctHMContains (const ctHM_t *map, const char *key);
+
+void
+ctHMClear (ctHM_t *map)
+{
+	if (map == NULL)
+		return;
+	size_t i;
+	ctHMEntry_t *entry;
+	if (map->buckets == NULL)
+		return;
+	for (i = 0; i < map->bucketCount; i++)
+		if (map->buckets[i] != NULL)
+			{
+				while (map->buckets[i]->size != 0)
+					{
+						if (ctListPopBack (map->buckets[i], &entry) != 0)
+							{
+								// Add an error handler here
+								break;
+							}
+						entryDestroy (entry);
+					}
+			}
+	map->size = 0;
 }
