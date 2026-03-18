@@ -35,22 +35,16 @@ void ctHMFree (ctHM_t *map);
 size_t ctHMSize (const ctHM_t *map);
 int ctHMIsEmpty (const ctHM_t *map);
 void ctHMClear (ctHM_t *map);
+int ctHMContains (const ctHM_t *map, const char *key);
 
 int ctHMPut (ctHM_t *map, const char *key, const char *value);
-void *ctHMGet (const ctHM_t *map, const char *key);
+char *ctHMGet (const ctHM_t *map, const char *key);
 void ctHMRemove (ctHM_t *map, void (*freeValue) (void *));
-int ctHMContains (const ctHM_t *map, const char *key);
 
 /**
  * TODO
- * keyCompare
- * findEntry
- * findEntryPrev
- *
  * remove
  * put
- * get
- * contains
  *
  * HELPERS
  * resize
